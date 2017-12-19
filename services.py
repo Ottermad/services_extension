@@ -34,9 +34,9 @@ class Services:
         self.dependencies = app.config.get('DEPENDENCIES', [])
         if not app.config.get('NO_REGISTER', False):
             self.register()
-        self.list()
-        self.check_dependencies()
-        self.add_services()
+            self.list()
+            self.check_dependencies()
+            self.add_services()
 
     def register(self):
         payload = {'name': self.service_name}
