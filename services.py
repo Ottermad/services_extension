@@ -32,7 +32,8 @@ class Services:
         '''
         self.service_name = app.config.get('SERVICE_NAME', None)
         self.dependencies = app.config.get('DEPENDENCIES', [])
-        self.register()
+        if app.config.get('NO_REGISTER', False):
+            self.register()
         self.list()
         self.check_dependencies()
         self.add_services()
