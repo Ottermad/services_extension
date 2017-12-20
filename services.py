@@ -4,19 +4,19 @@ class Service:
     def __init__(self, host):
         self.host = host
 
-    def get(url, **kwargs):
+    def get(self, url, **kwargs):
         return requests.get('{}/'+url, **kwargs)
 
-    def post(url, **kwargs):
+    def post(self, url, **kwargs):
         return requests.post('{}/'+url, **kwargs)
 
-    def put(url, **kwargs):
+    def put(self, url, **kwargs):
         return requests.put('{}/'+url, **kwargs)
 
-    def patch(url, **kwargs):
+    def patch(self, url, **kwargs):
         return requests.patch('{}/'+url, **kwargs)
 
-    def delete(url, **kwargs):
+    def delete(self, url, **kwargs):
         return requests.delete('{}/'+url, **kwargs)
 
 
