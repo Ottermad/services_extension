@@ -52,7 +52,9 @@ class Services:
     def list(self):
         response = requests.get(self.services_url + "/services")
         json = response.json()
-        self.services = json['services']
+        self.services = {}
+        for service in json['services']:
+            self.services[service['name']] = Service(service['name'])
 
     def add_services(self):
         service_objs = {}
