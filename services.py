@@ -44,12 +44,12 @@ class Services:
 
     def register(self):
         payload = {'name': self.service_name}
-        response = requests.post(self.services_url, json=payload)
+        response = requests.post(self.services_url + "/register", json=payload)
         if response.status_code != 201:
             raise Exception("Status Code: {}".format(response))
 
     def list(self):
-        response = requests.get(self.services_url)
+        response = requests.get(self.services_url + "/services")
         json = response.json()
         self.services = json['services']
 
