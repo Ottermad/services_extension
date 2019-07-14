@@ -2,8 +2,9 @@ import requests
 import os
 
 class Service:
-    def __init__(self, name):
-        self.ip = os.environ.get("{}_SERVICE_HOST".format(name))
+    def __init__(self, name, k8s_name=""):
+        self.name = name
+        self.ip = os.environ.get("{}_SERVICE_HOST".format(k8s_name))
         self.host = "http://{}".format(self.ip)
 
     def get(self, url, **kwargs):
@@ -34,6 +35,7 @@ class Services:
         :param app: The Flask application object.
         '''
         self.service_name = app.config.get('SERVICE_NAME', None)
+        self.k8s_name = app.config.get("K8S_SERVICE_NAME", None)
         self.dependencies = app.config.get('DEPENDENCIES', [])
 
         self.services_url = "http://{}".format(os.environ.get('VLE_SERVICE_SERVICE_HOST'))
@@ -45,7 +47,7 @@ class Services:
             self.add_services()
 
     def register(self):
-        payload = {'name': self.service_name}
+        payload = {'name': self.service_name, 'k8s_name': self.k8s_name}
         response = requests.post(self.services_url + "/register", json=payload)
         if response.status_code != 201:
             raise Exception("Status Code: {}".format(response))
