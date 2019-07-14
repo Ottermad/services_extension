@@ -63,7 +63,7 @@ class Services:
         self.__dict__.update(self.services)
 
     def check_dependencies(self):
-        names = [service['name'] for service in self.services.values()]
+        names = [service.name for service in self.services.values()]
         for dependency in self.dependencies:
             if dependency not in names:
                 raise Exception("Missing Service: {}".format(dependency))
