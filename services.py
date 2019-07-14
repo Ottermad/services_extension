@@ -25,6 +25,7 @@ class Service:
 class Services:
     """docstring for Services."""
     def __init__(self, app=None):
+        self.services = {}
         if app is not None:
             self.init_app(app)
 
@@ -57,10 +58,7 @@ class Services:
             self.services[service['name']] = Service(service['name'])
 
     def add_services(self):
-        service_objs = {}
-        for service in self.services:
-            service_objs[service['name']] = Service(service['name'])
-        self.__dict__.update(service_objs)
+        self.__dict__.update(self.services)
 
     def check_dependencies(self):
         names = [service['name'] for service in self.services]
