@@ -2,7 +2,7 @@ import requests
 import os
 
 class Service:
-    def __init__(self, name, k8s_name=""):
+    def __init__(self, name, k8s_name):
         self.name = name
         self.ip = os.environ.get("{}_SERVICE_HOST".format(k8s_name))
         self.host = "http://{}".format(self.ip)
@@ -57,7 +57,7 @@ class Services:
         json = response.json()
         self.services = {}
         for service in json['services']:
-            self.services[service['name']] = Service(service['name'])
+            self.services[service['name']] = Service(service['name'], service['k8s_name'])
 
     def add_services(self):
         self.__dict__.update(self.services)
