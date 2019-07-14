@@ -1,4 +1,5 @@
 import requests
+import os
 
 class Service:
     def __init__(self, host):
@@ -32,6 +33,9 @@ class Services:
         '''
         self.service_name = app.config.get('SERVICE_NAME', None)
         self.dependencies = app.config.get('DEPENDENCIES', [])
+
+        self.services_url = "http://{}".format(os.environ.get('VLE_SERVICE_SERVICE_HOST'))
+
         if not app.config.get('NO_REGISTER', False):
             self.register()
             self.list()
@@ -40,12 +44,12 @@ class Services:
 
     def register(self):
         payload = {'name': self.service_name}
-        response = requests.post('http://services/register', json=payload)
+        response = requests.post(self.services_url, json=payload)
         if response.status_code != 201:
             raise Exception("Status Code: {}".format(response))
 
     def list(self):
-        response = requests.get('http://services/services')
+        response = requests.get(self.services_url)
         json = response.json()
         self.services = json['services']
 
@@ -59,4 +63,4 @@ class Services:
         names = [service['name'] for service in self.services]
         for dependency in self.dependencies:
             if dependency not in names:
-                raise Exception("Missing Service: {}".format(depenency))
+                raise Exception("Missing Service: {}".format(dependency))
