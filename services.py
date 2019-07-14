@@ -2,8 +2,9 @@ import requests
 import os
 
 class Service:
-    def __init__(self, host):
-        self.host = host
+    def __init__(self, name):
+        self.ip = os.environ.get("{}_SERVICE_HOST".format(name))
+        self.host = "http://{}".format(self.ip)
 
     def get(self, url, **kwargs):
         return requests.get('{}/'.format(self.host)+url, **kwargs)
@@ -56,7 +57,7 @@ class Services:
     def add_services(self):
         service_objs = {}
         for service in self.services:
-            service_objs[service['name']] = Service(service['host'])
+            service_objs[service['name']] = Service(service['name'])
         self.__dict__.update(service_objs)
 
     def check_dependencies(self):
